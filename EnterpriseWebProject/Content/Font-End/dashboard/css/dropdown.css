@@ -1,0 +1,60 @@
+
+.box select {
+  padding: 12px;
+  width: 100%;
+  border: 1px solid #E3E3E3;
+  border-radius: 4px;
+  -webkit-appearance: button;
+  appearance: button;
+}
+
+.box::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.box:hover::before {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.box select option {
+  padding: 30px;
+}
+
+
+
+.box2 select {
+  padding: 12px;
+  width: 20%;
+  border: 1px solid #E3E3E3;
+  border-radius: 4px;
+  -webkit-appearance: button;
+  appearance: button;
+}
+
+.box2::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.box2:hover::before {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.box2 select option {
+  padding: 30px;
+}

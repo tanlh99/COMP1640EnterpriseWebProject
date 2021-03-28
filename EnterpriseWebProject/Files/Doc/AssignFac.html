@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssignFac - My ASP.NET Application</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet"/>
+<link href="/Content/site.css" rel="stylesheet"/>
+
+    <script src="/Scripts/modernizr-2.8.3.js"></script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Application name</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Admin/Account">Account</a></li>
+                    <li><a href="/Admin/Role">Role</a></li>
+                    <li><a href="/Admin/AcademicYear">AcademicYear</a></li>
+                    <li><a href="/Manager/Magazine">Magazine</a></li>
+                    <li><a href="/Admin/Faculty">Faculty</a></li>
+
+                        <li><a href="/Home/Login">Login</a></li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container body-content">
+        
+
+
+<h2>AssignFac</h2>
+<br />
+<br />
+<form action="/Admin/AssignFac" method="post">    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Faculties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="hidden" name="accId" value="2" />vuduy</td>
+
+
+                <td>
+                </td>              
+                <td><input type="submit" class="btn btn-primary"/></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+        <hr />
+        <footer>
+            <p>&copy; 2021 - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    <script src="/Scripts/jquery-3.4.1.js"></script>
+
+    <script src="/Scripts/bootstrap.js"></script>
+
+    
+</body>
+</html>

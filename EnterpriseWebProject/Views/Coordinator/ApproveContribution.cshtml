@@ -1,0 +1,49 @@
+﻿@model EnterpriseWebProject.ViewModel.CommentViewModel
+
+@{
+    ViewBag.Title = "ApproveContribution";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">EDIT MAGAZINE</h4>
+                    </div>
+                    <div class="content table-responsive">
+                        <div class="card-body">
+                            @{ 
+                                List<SelectListItem> list = new List<SelectListItem>();
+                                list.Add(new SelectListItem { Text = "True", Value = "True" });
+                                list.Add(new SelectListItem { Text = "False", Value = "False" });
+                            }
+                            @using (Html.BeginForm("ApproveContribution", "Coordinator", FormMethod.Post))
+                            {
+                                @Html.HiddenFor(m => m.ContributionId)
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box">
+                                            <label for="">Status</label>
+                                            @Html.DropDownListFor(m => m.Status, list, new { @class = "form-control"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                                    <button type="submit" class="btn btn-info btn-fill"
+                                            style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                        Update
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Dashboard</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <!-- Bootstrap core CSS     -->
+    <link href="./dashboard/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="./dashboard/css/animate.min.css" rel="stylesheet" />
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="./dashboard/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+
+
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="./dashboard/css/demo.css" rel="stylesheet" />
+
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="./Dashboard/css/pe-icon-7-stroke.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="sidebar" data-color="purple" data-image="./Dashboard/img/sidebar-5.jpg">
+
+            <!--
+
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+        Tip 2: you can also add an image using data-image tag
+
+    -->
+
+            <div class="sidebar-wrapper">
+                  <div class="logo" style="padding:14px">
+                      <img src="./dashboard/img/logo.png" width="100%" height="100%" class="simple-text">
+                  </div>
+
+                <ul class="nav">
+                    <li class="active">
+                        <a href="dashboard.html">
+                            <i class="pe-7s-graph"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="user.html">
+                            <i class="pe-7s-user"></i>
+                            <p>User Profile</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="pe-7s-culture"></i>
+                            <p>Faculty</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="icons.html">
+                            <i class="pe-7s-timer"></i>
+                            <p>Academic Year</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="icons.html">
+                            <i class="pe-7s-news-paper"></i>
+                            <p>Magazine</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="pe-7s-user"></i>
+                            <p>Accounts</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="icons.html">
+                            <i class="pe-7s-upload"></i>
+                            <p>Manager Upload</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="icons.html">
+                            <i class="pe-7s-cloud-upload"></i>
+                            <p>Upload File</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#navigation-example-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <li>
+                                <a href="profile.html">
+                                    <img src="./dashboard/img/avatar.jpg" alt="Avatar" height="30" width="30"
+                                        style="border-radius:50px"><label style="margin-left: 10px">user123</label>
+                                </a>
+                            </li>
+                            <li><a href="#"><label style="margin-top:3px">Logout</label></a></li>
+                            <li class="separator hidden-lg hidden-md"></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Edit Profile</h4>
+                                </div>
+                                <div class="content">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label>Email address</label>
+                                                    <input type="text" class="form-control" disabled placeholder="Email" value="example123@email.com">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Username</label>
+                                                    <input type="text" class="form-control" disabled placeholder="Username" value="admin">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label>Full Name</label>
+                                                    <input type="text" class="form-control" placeholder="First Name" value="Lmao">
+                                                </div>
+                                            </div>
+    																				<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Phone Number</label>
+                                                    <input type="text" class="form-control" placeholder="Phone" value="6969420">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control" placeholder="Home Address" value="Đẳk đẳk bủh bủh lmao">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+    																				<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Old Password</label>
+                                                    <input type="password" class="form-control" placeholder="Enter Your Old Password">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>New Password</label>
+                                                    <input type="password" class="form-control" placeholder="Enter Your New Password">
+                                                </div>
+                                            </div>
+    																				<div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Confirm New Password</label>
+                                                    <input type="password" class="form-control" placeholder="Confirm New Password">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+    										<div class="col-md-4">
+    												<div class="card card-user">
+    														<div class="image">
+    																<img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/> <!-- user profile background here -->
+    														</div>
+    														<div class="content">
+    																<div class="author">
+    																		 <a href="#">
+    																		<img class="avatar border-gray" src="./dashboard/img/default-avatar.png" alt="User Avatar"/> <!-- user profile avatar here -->
+
+    																			<h4 class="title">A<br />
+    																				 <small>B</small>
+    																			</h4>
+    																		</a>
+    																</div>
+    																<p class="description text-center"></p>
+    														</div>
+    														<hr>
+    												</div>
+    										</div>
+
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+
+                </div>
+            </footer>
+
+        </div>
+    </div>
+</body>
+
+<!--   Core JS Files   -->
+<script src="./dashboard/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="./dashboard/js/bootstrap.min.js" type="text/javascript"></script>
+
+<!--  Charts Plugin -->
+<script src="./dashboard/js/chartist.min.js"></script>
+
+<!--  Notifications Plugin    -->
+<script src="./dashboard/js/bootstrap-notify.js"></script>
+
+<!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
+<script src="./dashboard/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+
+<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
+<script src="./dashboard/js/demo.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        demo.initChartist();
+
+        $.notify({
+            icon: 'pe-7s-user',
+            message: "Welcome back <b>username</b>"
+
+        }, {
+            type: 'info',
+            timer: 20
+        });
+
+    });
+</script>
+
+</html>

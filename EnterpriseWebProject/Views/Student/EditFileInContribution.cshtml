@@ -1,0 +1,106 @@
+﻿@model EnterpriseWebProject.ViewModel.UpdateFileViewModel
+
+@{
+    ViewBag.Title = "EditFileInContribution";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">EDIT CONTRIBUTION</h4>
+                    </div>
+                    @using (Html.BeginForm("EditFileInContribution", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.ContributionId)
+                        <div class="content table-responsive">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="Name">Contribution Name</label>
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="fileDoc">Select Doc</label>
+                                            @Html.EditorFor(model => model.FileDoc, new { htmlAttributes = new { @class = "form-control", @type = "file", @accept = ".doc,.docx", @onchange = "validateFileDoc()" } })
+                                            @Html.ValidationMessageFor(model => model.FileDoc, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="fileDoc">Select Image</label>
+                                            @Html.EditorFor(model => model.FileImg, new { htmlAttributes = new { @class = "form-control", @type = "file", @accept = ".jpg,.jpeg,.png", @onchange = "validateFileImage()" } })
+                                            @Html.ValidationMessageFor(model => model.FileImg, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="Description">Description</label>
+                                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "3", @cols = "80", spellcheck = "false" })
+                                            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                                <button type="submit" class="btn btn-info btn-fill"
+                                        style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY----------------------------------------------------->
+
+<script>
+    let fileDoc = document.getElementById("FileDoc");
+    let fileImage = document.getElementById("FileImg");
+
+    function validateFileImage() {
+        var fileName = fileImage.value,
+            idxDot = fileName.lastIndexOf(".") + 1,
+            extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+            //thich lam gi thi lam
+        } else {
+            alert("Only jpg/jpeg and png files are allowed!");
+            fileImage.value = "";  // Reset the input so no files are uploaded
+        }
+    }
+
+    function validateFileDoc() {
+        var fileName = fileDoc.value,
+            idxDot = fileName.lastIndexOf(".") + 1,
+            extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "doc" || extFile == "docx") {
+            //thich lam gi thi lam
+        } else {
+            alert("Only doc and docx files are allowed!");
+            fileDoc.value = "";  // Reset the input so no files are uploaded
+        }
+    }
+</script>

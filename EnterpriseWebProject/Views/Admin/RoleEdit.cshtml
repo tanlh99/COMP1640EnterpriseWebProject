@@ -1,0 +1,49 @@
+﻿@model EnterpriseWebProject.Models.Role
+
+@{
+    ViewBag.Title = "RoleEdit";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">CREATE ACADEMIC YEAR</h4>
+                    </div>
+                    <div class="content table-responsive">
+                        @using (Html.BeginForm("RoleCreateOrEdit", "Admin", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            <span class="text-danger">@ViewBag.error</span>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                                <button type="submit" class="btn btn-info btn-fill"
+                                        style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                    Create
+                                </button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->

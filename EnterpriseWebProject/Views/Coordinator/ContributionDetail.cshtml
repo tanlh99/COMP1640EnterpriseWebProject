@@ -1,0 +1,109 @@
+﻿@model EnterpriseWebProject.ViewModel.CommentViewModel
+@{
+    ViewBag.Title = "ContributionDetail";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">DETAIL CONTRIBUTION</h4>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-hover table-striped" style="text-align:center">
+                            <tbody>
+                                <tr>
+                                    <th scope="row" style="text-align:right">ID</th>
+                                    <td>@Model.Number</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:right">Name</th>
+                                    <td>@Model.Name</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:right">File</th>
+                                    <td>@Model.FileDoc <a href="@Url.Action("DownloadFile","Coordinator", new { contriId = Model.ContributionId})">Download</a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:right">Status</th>
+                                    <td>
+                                        @if (Model.Status == true)
+                                        {
+                                            <span style="min-width:100px;display:inline-block;padding:4px 2px;background: green;"
+                                                  class="badge badge-success">Pass</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="min-width:100px;display:inline-block;padding:4px 2px;background: red;"
+                                                  class="badge badge-success">Not Pass</span>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:right">Student</th>
+                                    <td>@Model.StudentName</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:right">Submit</th>
+                                    <td>@Model.SubmitDate</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                            <a href="@Url.Action("ApproveContribution", "Coordinator", new { contriId = Model.ContributionId})" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Update</a>
+                        </div>
+
+
+                        <!---PHẦN BÌNH LUẬN NÈ-->
+                        <div style="margin-left: 15%; margin-right: 15%;">
+                            <h4>Comment</h4>
+                            <!--Viết bình luận-->
+                            <div class="row" style="padding-top: 12px; padding-bottom: 12px;">
+                                @using (Html.BeginForm("CoordinatorComment", "Coordinator", FormMethod.Post, new { @class = "media" }))
+                                {
+                                    @Html.AntiForgeryToken();
+                                    @Html.HiddenFor(m => m.ContributionId)
+                                    @Html.HiddenFor(m => m.AccountId)
+                                    <a class="pull-left"><img class="media-object" src="~/Files/Avatar/@Model.Avatar" alt="" style="width:50px"></a>
+                                    <div class="media-body">
+                                        <div class="media">                                      
+                                            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", @required = "required", @id = "message", @placeholder = "Your message", @style = "resize: none" })
+                                            @Html.ValidationMessageFor(m => m.Message, "", new { @class = "text-danger" })
+                                            <div style="margin-top: 2px; margin-bottom: 2px; position: relative; text-align: right;">
+                                                <button type="submit" class="btn btn-primary btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Sent</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            @{
+                                List<EnterpriseWebProject.Models.Comment> list = ViewBag.list;
+                            }
+                            @foreach (var item in list)
+                            {
+                                <!--CMT-->
+                                <div class="row" style="border-top: 1px dashed #DDDDDD; padding-top: 12px; padding-bottom: 12px;">
+                                    <div class="media">
+                                        <a class="pull-left"><img class="media-object" src="~/Files/Avatar/@item.Account.Avatar" alt="" style="width:50px"></a>
+                                        <div class="media-body">
+                                            <h5 class="media-heading" style="font-weight: bold;">@item.Account.Username</h5>
+                                            <p>@item.Message</p>
+                                            <ul class="list-unstyled list-inline media-detail pull-left">
+                                                <li><i class="fa fa-calendar"></i>@item.SubmitDate</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY----------------------------------------------------->

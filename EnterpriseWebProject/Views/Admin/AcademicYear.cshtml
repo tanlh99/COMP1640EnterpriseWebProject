@@ -1,0 +1,57 @@
+﻿@model List<EnterpriseWebProject.Models.AcademicYear>
+@{
+    ViewBag.Title = "AcademicYear";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">ACADEMIC YEAR</h4>
+                </div>
+
+                <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
+                    <a href="@Url.Action("AcaYearCreate","Admin")" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Create</a>
+                </div>
+
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">#</th>
+                                <th style="text-align:center">Academic Year</th>
+                                <th style="text-align:center">Action(table)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+                                List<int> magaId = ViewBag.magaId;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr style="text-align:center">
+                                    <td style="text-align:center">@count</td>
+                                    <td style="text-align:center">@item.YearNo</td>
+                                    @if (magaId.Contains(item.Id))
+                                    {
+                                        <td><a href="#" onclick="return alert('Cannot delete this row!!!')">Delete</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="@Url.Action("AcaYearDelete","Admin", new { yearId = item.Id})" onclick="return confirm('Are you sure?')">Delete</a></td>
+                                    }
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->

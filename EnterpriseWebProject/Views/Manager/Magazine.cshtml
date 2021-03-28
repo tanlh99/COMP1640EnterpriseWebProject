@@ -1,0 +1,100 @@
+﻿@model IPagedList<EnterpriseWebProject.Models.Magazine>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Magazine";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">MAGAZINE</h4>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 pull-left">
+                        <div class="search">
+                            <i class="fa fa-search"></i>
+                            <input type="text" style="margin: 10px;
+                                                        height: 40px;
+                                                        width: 300px;
+                                                        padding-left: 10px;
+                                                        outline: 0;
+                                                        border-width: 0 0 2px;
+                                                        border-color: #1dc7ea;
+                                                        background: rgb(247 247 248)" placeholder="Search.." id="searchTable"><br>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pull-right">
+                        <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
+                            <a href="@Url.Action("MagazineCreate","Manager")" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Create</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">No.</th>
+                                <th style="text-align:center">Name</th>
+                                <th style="text-align:center">Open Date</th>
+                                <th style="text-align:center">Close Date</th>
+                                <th style="text-align:center">Status</th>
+                                <th style="text-align:center">Academic year</th>
+                                <th style="text-align:center">Faculty action</th>
+                                <th style="text-align:center"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @{
+                                int count = 1;
+                                List<string> list = ViewBag.list;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="text-align:center">@count</td>
+                                    <td style="text-align:center">@item.Name</td>
+                                    <td style="text-align:center">@item.OpenDate</td>
+                                    <td style="text-align:center">@item.CloseDate</td>
+                                    <td style="text-align:center">@item.Status</td>
+                                    <td style="text-align:center">@item.AcademicYear.YearNo</td>
+                                    <td style="text-align:center">
+                                        <a href="@Url.Action("FacToMagazine","Manager", new { magazineId = item.Id})" class="btn btn-primary btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Assign</a>
+                                        <a href="@Url.Action("ViewFacInMagazine","Manager", new { magazineId = item.Id})" class="btn btn-warning btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">View</a>
+                                    </td>
+                                    <td style="text-align:center">
+                                        <a href="@Url.Action("MagazineEdit","Manager", new { magazineId = item.Id})">Edit</a> |
+                                        @if (list.Contains(item.Id.ToString()))
+                                        {
+                                            <a href="#" onclick="return alert('Cannot Delete This Row!!!')">Delete</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("MagazineDelete","Manager", new { magazineId = item.Id})" onclick="return confirm('Are you sure delete @item.Name Magazine?')">Delete</a>
+                                        }
+                                    </td>
+
+
+                                </tr>
+                                count++;
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+                    <div class="container" style="margin: 20px 0 0 auto">
+                        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Magazine", "Manager", new { page }))
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->

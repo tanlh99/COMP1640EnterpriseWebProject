@@ -1,0 +1,145 @@
+﻿@model EnterpriseWebProject.Models.Magazine
+
+@{
+    ViewBag.Title = "MagazineEdit";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">EDIT MAGAZINE</h4>
+                    </div>
+                    <div class="content table-responsive">
+                        @using (Html.BeginForm("MagazineCreateOrEdit", "Manager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.Id)
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Name)
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Description)
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3", @cols = "80", spellcheck = "false" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.PDFfile)
+                                        @Html.EditorFor(model => model.PDFfile, new { htmlAttributes = new { @class = "form-control", @type = "file", @accept = ".pdf", @onchange = "validateFilePdf()" } })
+                                        @Html.ValidationMessageFor(model => model.PDFfile, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ImgFile)
+                                        @Html.EditorFor(model => model.ImgFile, new { htmlAttributes = new { @class = "form-control", @type = "file", @accept = ".jpg,.jpeg,.png", @onchange = "validateFileImage()" } })
+                                        @Html.ValidationMessageFor(model => model.ImgFile, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OpenDate)
+                                        @Html.EditorFor(model => model.OpenDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.OpenDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CloseDate)
+                                        @Html.EditorFor(model => model.CloseDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CloseDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            @{
+                                List<SelectListItem> list = ViewBag.list;
+                                List<SelectListItem> status = new List<SelectListItem>();
+                                status.Add(new SelectListItem { Text = "True", Value = "True" });
+                                status.Add(new SelectListItem { Text = "False", Value = "False" });
+
+                            }
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="box">
+                                        <label for="">Academic year</label>
+                                        @Html.DropDownListFor(m => m.AcademicYearID, list, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.AcademicYearID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="box">
+                                        <label for="">Status</label>
+                                        @Html.DropDownListFor(model => model.Status, status, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                                <button type="submit" class="btn btn-info btn-fill"
+                                        style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                    Update
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->
+<script>
+    let fileImage = document.getElementById("ImgFile");
+    let filePdf = document.getElementById("PDFfile");
+
+    function validateFileImage() {
+        var fileName = fileImage.value,
+            idxDot = fileName.lastIndexOf(".") + 1,
+            extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+            //thich lam gi thi lam
+        } else {
+            alert("Only jpg/jpeg and png files are allowed!");
+            fileImage.value = "";  // Reset the input so no files are uploaded
+        }
+    }
+
+    function validateFilePdf() {
+        var fileName = filePdf.value,
+            idxDot = fileName.lastIndexOf(".") + 1,
+            extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "pdf") {
+            //thich lam gi thi lam
+        } else {
+            alert("Only pdf files are allowed!");
+            filePdf.value = "";  // Reset the input so no files are uploaded
+        }
+    }
+</script>

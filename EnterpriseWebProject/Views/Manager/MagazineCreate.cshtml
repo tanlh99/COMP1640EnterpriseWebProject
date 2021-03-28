@@ -1,0 +1,84 @@
+﻿@model EnterpriseWebProject.Models.Magazine
+@{
+    ViewBag.Title = "MagazineCreate";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">CREATE MAGAZINE</h4>
+                    </div>
+                    <div class="content table-responsive">
+                        @using (Html.BeginForm("MagazineCreateOrEdit", "Manager", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Name)
+                                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Description)
+                                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "3", @cols = "80", spellcheck = "false" })
+                                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.OpenDate)
+                                        @Html.TextBoxFor(m => m.OpenDate, new { @class = "form-control", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.OpenDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.CloseDate)
+                                        @Html.TextBoxFor(m => m.CloseDate, new { @class = "form-control", @type = "date" })
+                                        @Html.ValidationMessageFor(m => m.CloseDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @{
+                                        List<SelectListItem> magazine = ViewBag.list;
+                                    }
+                                    <div class="box">
+                                        @Html.LabelFor(m => m.AcademicYear)
+                                        @Html.DropDownListFor(m => m.AcademicYearID, magazine, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                                <button type="submit" class="btn btn-info btn-fill"
+                                        style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->

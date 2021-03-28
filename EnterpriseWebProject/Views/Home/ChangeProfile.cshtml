@@ -1,0 +1,141 @@
+﻿@model EnterpriseWebProject.ViewModel.UpdateProfileViewModel
+
+@{
+    ViewBag.Title = "ChangeProfile";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<style>
+    .image-upload > input {
+        display: none;
+    }
+</style>
+<!-----------------------BODY------------------------->
+<div class="content">
+    <div class="container-fluid">
+        @using (Html.BeginForm("ChangeProfile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">User Profile</h4>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Email address</label>
+                                        <input type="text" class="form-control txt" readonly placeholder="Email" value="@Model.Email" style="color: black;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control txt" readonly placeholder="Username" value="@User.Identity.Name" style="color: black;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Full Name</label>
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Date of Birth</label>
+                                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                        @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        @Html.EditorFor(model => model.Tel, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Tel, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Update</button>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card-user">
+                        <div class="image">
+                            <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..." /> <!-- user profile background here -->
+                        </div>
+                        <div class="content">
+                            <div class="author">
+                                <div class="image-upload">
+                                    <label for="file-input">
+                                        @if (Model.Avatar == null)
+                                        {
+                                            <img class="avatar border-gray" id="img" src="~/Files/Avatar/avatarzz.jpg" alt="UserAvatar" /> <!-- user profile avatar here -->
+                                        }
+                                        else
+                                        {
+                                            <img class="avatar border-gray" id="img" src="~/Files/Avatar/@Model.Avatar" alt="UserAvatar" /> <!-- user profile avatar here -->
+                                        }
+                                    </label>
+                                    <input id="file-input" type="file" name="avatar" value="@Model.Avatar" onchange="getURL(this), validateFileImage()" accept=".jpg,.jpeg,.png" />
+                                </div>
+                                
+                                
+                                <h4 class="title">
+                                    @Model.Name<br />
+                                    <small>@User.Identity.Name</small>
+                                </h4>
+                                <p class="description text-center"></p>
+
+                            </div>
+                            
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+<!-----------------------BODY------------------------->
+<script type="text/javascript">
+    function getURL(img) {
+        if (img.files && img.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(img.files[0]);
+        }
+    }
+
+    let fileImage = document.getElementById("file-input");
+    function validateFileImage() {
+        var fileName = fileImage.value,
+            idxDot = fileName.lastIndexOf(".") + 1,
+            extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+            //thich lam gi thi lam
+        } else {
+            alert("Only jpg/jpeg and png files are allowed!");
+            fileImage.value = "";  // Reset the input so no files are uploaded
+        }
+    }
+</script>
+
+
+

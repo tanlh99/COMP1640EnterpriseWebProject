@@ -1,0 +1,121 @@
+﻿@model EnterpriseWebProject.ViewModel.Contri_FileViewModel
+
+@{
+    ViewBag.Title = "ContributionSubmitFile";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">UPLOAD CONTRIBUTION</h4>
+                    </div>
+                    @using (Html.BeginForm("ContributionSubmitFile", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                <div class="content table-responsive">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Name">Contribution Name</label>
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="fileDoc">Select Doc</label>
+                                    <input type="file" name="fileDoc" id="fileDoc" accept=".doc,.docx" onchange="validateFileDoc()" class="form-control" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="fileImage">Select Image</label>
+                                    <input type="file" name="fileImage" id="fileImage" accept=".jpg,.jpeg,.png" onchange="validateFileImage()" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="Description">Description</label>
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = "3", @cols = "80", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="">
+                                <h4 style="text-align: center; margin-bottom: -15px;">Terms and Conditions</h4>
+                                <textarea name="name" class="form-group" rows="8" style="width:100%;margin: 0px auto;margin-top: 20px; padding:5px; border-radius: 4px; border: 1px solid #777; resize: none" readonly>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi in lorem eget urna maximus lobortis. Integer convallis eu nibh in luctus. Aenean eros turpis, mattis at dui non, aliquet hendrerit nisl. Quisque velit risus, fringilla id dapibus ac, finibus id mi. In luctus feugiat ex, quis dapibus ex ornare eu. Phasellus laoreet laoreet diam. Nulla interdum lectus velit, at mattis turpis pretium a. Maecenas quis dui neque. Cras porttitor arcu eu arcu ultricies sodales. Proin luctus enim a justo suscipit, sit amet iaculis nunc rhoncus. Vestibulum tempor at tortor quis interdum.
+
+Nam non purus quis lorem maximus iaculis non ut dui. Integer at tortor vel erat hendrerit ornare sit amet vel nunc. Nunc accumsan est sit amet turpis dapibus, a lacinia neque iaculis. Curabitur eu velit tortor. Suspendisse a massa faucibus, mollis arcu ut, tristique diam. Proin finibus nulla nec mollis elementum. Donec libero nunc, sollicitudin eu lacinia at, sodales vitae sapien.
+
+Suspendisse potenti. Aliquam quis nunc quis ligula auctor eleifend. In ut ullamcorper tellus, fringilla cursus justo. Mauris varius faucibus sem, a dictum felis commodo in. Vestibulum id porttitor odio. Nunc sed lobortis justo. Morbi lacinia ac justo eu ultrices. Sed ut sodales nulla, id venenatis ex.
+
+Nullam euismod risus erat, at pellentesque lorem dapibus id. Sed consectetur bibendum sem sed lobortis. Donec vel ullamcorper leo. Mauris sapien justo, ultricies et eros ut, porttitor tincidunt sapien. Donec sit amet lorem orci. Integer scelerisque velit nisl, et auctor ligula finibus at. Vestibulum consequat tincidunt ultrices. Pellentesque placerat mauris massa, vel rhoncus dui lobortis non.
+
+Maecenas eu condimentum nulla. Aenean ac volutpat tortor, ut lacinia mauris. Phasellus vitae elementum odio, ut suscipit lacus. Suspendisse potenti. Etiam laoreet, libero sit amet pharetra iaculis, diam justo aliquam ligula, ut mollis urna felis sit amet ipsum. Nulla quis vehicula velit, non condimentum erat. Sed aliquet, felis tincidunt gravida suscipit, mauris felis porttitor massa, in vehicula risus nisi non mi. Vivamus blandit sit amet augue ut scelerisque</textarea>
+                            </div>
+                            </div>
+                        </div>
+                            <div class="terms" style="text-align:center">
+                                <input type="checkbox" name="checkbox" value="check" id="agree" required /> I have read and agree to the <a href="#" style="color:orange">Terms and Conditions </a>
+                            </div>
+
+                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                                <button type="submit" class="btn btn-info btn-fill"
+                                        style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY----------------------------------------------------->
+<script>
+    let fileImage = document.getElementById("fileImage");
+    let fileDoc = document.getElementById("fileDoc");
+
+    function validateFileImage() {
+        var fileName = fileImage.value,
+            idxDot = fileName.lastIndexOf(".") + 1,
+            extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
+            //thich lam gi thi lam
+        } else {
+            alert("Only jpg/jpeg and png files are allowed!");
+            fileImage.value = "";  // Reset the input so no files are uploaded
+        }
+    }
+
+    function validateFileDoc() {
+        var fileName = fileDoc.value,
+            idxDot = fileName.lastIndexOf(".") + 1,
+            extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "doc" || extFile == "docx") {
+            //thich lam gi thi lam
+        } else {
+            alert("Only doc and docx files are allowed!");
+            fileDoc.value = "";  // Reset the input so no files are uploaded
+        }
+    }
+</script>
+

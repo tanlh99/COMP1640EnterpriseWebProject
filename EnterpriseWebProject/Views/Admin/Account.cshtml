@@ -1,0 +1,101 @@
+﻿@model IPagedList<EnterpriseWebProject.Models.Account>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">ACCOUNT TABLE</h4>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 pull-left">
+                        <div class="search">
+                            <i class="fa fa-search"></i>
+                            <input type="text" style="margin: 10px;
+                                                        height: 40px;
+                                                        width: 300px;
+                                                        padding-left: 10px;
+                                                        outline: 0;
+                                                        border-width: 0 0 2px;
+                                                        border-color: #1dc7ea;
+                                                        background: rgb(247 247 248)" placeholder="Search.." id="searchTable"><br>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pull-right">
+                        <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
+                            <a href="@Url.Action("AccountCreate","Admin")" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Create</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">#</th>
+                                <th style="text-align:center">Username</th>
+                                <th style="text-align:center">Full Name</th>
+                                <th style="text-align:center">Email</th>
+                                <th style="text-align:center">Telephone</th>
+                                <th style="text-align:center">Role</th>
+                                <th style="text-align:center" scope="col">Action(Faculty)</th>
+                                <th style="text-align:center" scope="col">Action(table)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @{
+                                int count = 1;
+                                List<int> contriList = ViewBag.contriId;
+                                List<int> accFacList = ViewBag.accFacId;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="text-align:center">@count</td>
+                                    <td style="text-align:center">@item.Username</td>
+                                    <td style="text-align:center">@item.Name</td>
+                                    <td style="text-align:center">@item.Email</td>
+                                    <td style="text-align:center">@item.Tel</td>
+                                    <td style="text-align:center">@item.Role.Name</td>
+                                    <td style="text-align:center">
+                                        <a href="@Url.Action("AssignFac","Admin",new { accId = item.Id})" class="btn btn-primary btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Assign</a>
+                                        <a href="@Url.Action("ViewAssignFac","Admin",new { accId = item.Id})" class="btn btn-warning btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">View</a>
+                                    </td>
+                                    <th style="text-align:center">
+                                        <a href="@Url.Action("AccountEdit","Admin",new { accountId = item.Id})">Edit</a> |
+                                        @if (contriList.Contains(item.Id) || accFacList.Contains(item.Id))
+                                        {
+                                            <a href="#" onclick="return alert('Cannot delete this row!!!')">Delete</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("AccountDelete", "Admin", new { accId = item.Id})" onclick="return confirm('Are you sure you want to delete *@item.Username* Account?')">Delete</a>
+                                        }
+                                    </th>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="container" style="margin: 20px 0 0 auto">
+                    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Account", "Admin", new { page }))          
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------------------END BODY------------------------------------------------->

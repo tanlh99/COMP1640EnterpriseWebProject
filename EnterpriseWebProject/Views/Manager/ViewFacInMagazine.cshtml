@@ -1,0 +1,78 @@
+﻿@model EnterpriseWebProject.Models.Magazine
+@{
+    ViewBag.Title = "ViewAssignFacultyToMagazine";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">ASSIGN FACULTY</h4>
+                </div>
+                @using (Html.BeginForm("DeleteFacInMag", "Manager", FormMethod.Post, new { onsubmit = "return validate()" }))
+                {
+                    <input type="hidden" name="magazineId" value="@Model.Id" />
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">No.</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    List<SelectListItem> list = ViewBag.list;
+                                    //List<string> arrFac = ViewBag.falId;
+                                    List<string> contri = ViewBag.conId;
+
+                                }
+                                @foreach (var item in list)
+                                {                                   
+                                    <tr>
+                                        <td style="text-align:center">@count</td>
+                                        <td style="text-align:center">@item.Text</td>
+                                        <td style="text-align:center">
+                                            @if (contri.Contains(item.Value) == false)
+                                            {
+                                                <input class="form-check-input" name="facultyId" type="checkbox" value="@item.Value" style="zoom: 1.7;">
+                                            }
+                                            else
+                                            {
+                                                <input class="form-check-input" name="facultyId" type="checkbox" style="zoom: 1.7;" disabled>
+                                            }
+                                        </td>
+                                    </tr>
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                            <button type="submit" class="btn btn-info btn-fill"
+                                    style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->
+
+<script type="text/javascript">
+    //Check Validate with checkboxs
+    function validate() {
+        var checkbox = document.querySelector('input[name="facultyId"]:checked');
+        if (!checkbox) {
+            alert("checkbox select is required!");
+            return false;
+        }
+    }
+</script>

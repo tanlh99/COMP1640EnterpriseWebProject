@@ -1,0 +1,58 @@
+﻿@model EnterpriseWebProject.ViewModel.AdminEditAccViewModel
+@{
+    ViewBag.Title = "AccountEdit";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 justify-content-center" style="margin-left: 5%; margin-right: 5%">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title" style="text-align:center">EDIT ACCOUNT</h4>
+                    </div>
+                    <div class="content table-responsive">
+                        @using (Html.BeginForm("AccountEdit", "Admin", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @{
+                                            List<SelectListItem> roles = ViewBag.Roles;
+                                        }
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.NewRole)
+                                            @Html.DropDownListFor(m => m.NewRole, roles, "Select Role", new { @class = "form-control" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.Username)
+                                            @Html.EditorFor(m => m.Username, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.NewPassword)
+                                            @Html.EditorFor(m => m.NewPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(m => m.NewPassword, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: center;">
+                                <button type="submit" class="btn btn-info btn-fill"
+                                        style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">
+                                    Update
+                                </button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

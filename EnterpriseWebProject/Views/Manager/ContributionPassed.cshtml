@@ -1,0 +1,102 @@
+﻿@model IPagedList<EnterpriseWebProject.Models.File>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "ContributionPassed";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">CONTRIBUTION PASSED</h4>
+                </div>
+                @using (Html.BeginForm("DownloadFile", "Manager", FormMethod.Post, new { @enctype = "multipart/form-data", onsubmit = "return validate()" }))
+                {
+                    <div class="row">
+                        <div class="col-lg-6 pull-left">
+                            <div class="search">
+                                <i class="fa fa-search"></i>
+                                <input type="text" style="margin: 10px;
+                                                        height: 40px;
+                                                        width: 300px;
+                                                        padding-left: 10px;
+                                                        outline: 0;
+                                                        border-width: 0 0 2px;
+                                                        border-color: #1dc7ea;
+                                                        background: rgb(247 247 248)" placeholder="Search.." id="searchTable"><br>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 pull-right">
+                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
+                                <input type="submit" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%" value="Download" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">#</th>
+                                    <th style="text-align:center">Name</th>
+                                    <th style="text-align:center">File Name</th>
+                                    <th style="text-align:center">Submit date</th>
+                                    <th style="text-align:center">Magazine</th>
+                                    <th style="text-align:center"><input id="checkall" type="checkbox" style="zoom: 1.7;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="myTable">
+                                @{
+                                    int count = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td style="text-align:center">@count</td>
+                                        <td style="text-align:center">@item.Name</td>
+                                        <td style="text-align:center">@item.FileType</td>
+                                        <td style="text-align:center">@item.Contribution.SubmitDate</td>
+                                        <td style="text-align:center">@item.Contribution.Magazine_Faculty.Magazine.Name</td>
+                                        <td style="text-align:center">
+                                            <input class="form-check-input" name="download" value="@item.Id" type="checkbox" style="zoom: 1.7;">
+                                        </td>
+
+                                    </tr>
+                                    count++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <div class="container" style="margin: 20px 0 0 auto">
+                    @Html.PagedListPager((IPagedList)Model, page => Url.Action("ContributionPassed", "Manager", new { page }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->
+<script>
+    document.getElementById('checkall').onclick = function () {
+        var checkboxes = document.getElementsByName('download');
+        for (var checkbox of checkboxes) {
+            checkbox.checked = this.checked;
+        }
+    }
+    //Check Validate with checkboxs
+    function validate() {
+        var checkbox = document.querySelector('input[name="download"]:checked');
+        if (!checkbox) {
+            alert("checkbox select is required!");
+            return false;
+        }
+    }
+</script>
+<script>
+
+</script>

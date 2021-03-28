@@ -1,0 +1,90 @@
+﻿@model IPagedList<EnterpriseWebProject.Models.File>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Contribution";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">MANAGE UPDATE</h4>
+                </div>
+                <div class="search">
+                    <i class="fa fa-search"></i>
+                    <input type="text" style="margin: 10px;
+                                                        height: 40px;
+                                                        width: 300px;
+                                                        padding-left: 10px;
+                                                        outline: 0;
+                                                        border-width: 0 0 2px;
+                                                        border-color: #1dc7ea;
+                                                        background: rgb(247 247 248)" placeholder="Search.." id="searchTable"><br>
+                </div>
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">No.</th>
+                                <th>File Name</th>
+                                <th style="text-align:center">Submit date</th>
+                                <th style="text-align:center">Status</th>
+                                <th style="text-align:center"></th>
+                                @*<th style="text-align:center"></th>*@
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @{
+                                int count = 1;
+                                EnterpriseWebProject.ViewModel.CommentViewModel model = new EnterpriseWebProject.ViewModel.CommentViewModel();
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="text-align:center">@count</td>
+                                    <td>@item.Name</td>
+                                    <td style="text-align:center">@item.Contribution.SubmitDate</td>
+                                    <td style="text-align:center">
+                                        @if (item.Contribution.Status == true)
+                                        {
+                                            <span style="min-width:100px;display:inline-block;padding:4px 2px;background: green;"
+                                                  class="badge badge-success">Pass</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="min-width:100px;display:inline-block;padding:4px 2px;background: red;"
+                                                  class="badge badge-success">Not Pass</span>
+                                        }
+
+                                    </td>
+                                    <td style="text-align:center">
+                                        <a href="@Url.Action("ViewContributionAndComment","Student", new { contriId = item.ContributionId, numb = count})">View</a> |
+                                        <a href="@Url.Action("EditFileInContribution","Student", new { contriId = item.ContributionId, numb = count})">Edit</a> |
+                                        <a href="@Url.Action("DeleteContribution","Student", new { contriId = item.ContributionId})" onclick="return confirm('Are you sure delete This Contribution?')">Delete</a>
+                                    </td>
+                                    @*<td style="text-align:center">
+                                            <span class="dot" style="  height: 12px;
+                                                                width: 12px;
+                                                                background-color: red;
+                                                                border-radius: 50%;
+                                                                display: inline-block;"></span>
+                                        </td>*@
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="container" style="margin: 20px 0 0 auto">
+                    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Contribution", "Student", new { page }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->

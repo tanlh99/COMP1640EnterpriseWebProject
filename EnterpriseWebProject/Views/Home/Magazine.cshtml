@@ -1,0 +1,69 @@
+﻿@model IPagedList<EnterpriseWebProject.Models.Magazine>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Magazine";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<!-- service_area_start  -->
+    <div class="service_area">
+        <div class="container">
+            <div class="row justify-content-center ">
+                <div class="col-lg-7 col-md-10">
+                    <div class="section_title text-center mb-95">
+                        <h3>Magazine </h3>
+                        <p>The magazine has been compiled and edited selectively.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6" style="padding-bottom:50px;">
+                        <div class="card" style="width: 30rem;">
+                            <img class="card-img-top" src="~/Files/Image/@item.ImgFile" alt="Card image cap" style="height: 180px;">
+                            <div class="card-body">
+                                <h4 class="card-title">@item.Name</h4>
+                                <p class="card-text">@item.Description</p>
+                                <center>
+                                    <a href="@Url.Action("DownloadMagazine", "Home", new { magaId = item.Id})" class="boxed-btn4"> Read More </a>
+                                </center>
+                            </div>
+                        </div>
+                        @*<div class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+                            <div class="service_icon" style="">
+                                <img src="~/Files/Image/@item.ImgFile" alt="" style="width: 320px;height:170px">
+                            </div>
+                        </div>
+                        <div class="service_content text-center">
+                            <h3>@item.Name</h3>
+                            <p>@item.Description</p>
+                            <li>
+                                <a href="Reading.html" class="boxed-btn4">Read More</a>
+                            </li>
+                        </div>*@
+
+                    </div>
+                }
+
+            </div>
+            <center>
+                <div class="container" style="margin: 20px 0 0 auto">
+                    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Magazine", "Home", new { page}))
+                </div>
+            </center>
+        </div>    
+    </div>
+    
+<!-- service_area_end -->
+<!-- bradcam_area_start -->
+@*<div class="bradcam_area breadcam_bg">
+    <div class="container">
+        <li>
+            <a href="Nextpage.html" class="boxed-btn4">Next Page</a>
+
+        </li>
+    </div>
+</div>*@
+<!-- bradcam_area_end -->

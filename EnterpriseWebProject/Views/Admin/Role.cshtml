@@ -1,0 +1,68 @@
+﻿@model List<EnterpriseWebProject.Models.Role>
+@{
+    ViewBag.Title = "Role";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+<!-----------------------------BODY----------------------------------------------------->
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card card-plain table-plain-bg">
+                <div class="card-header ">
+                    <h4 class="card-title">ROLE TABLE</h4>
+                </div>
+
+                <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
+                    <a href="@Url.Action("RoleCreate","Admin")" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%)">Create</a>
+                </div>
+
+                <div class="card-body table-full-width table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">#</th>
+                                <th style="text-align:center">Name</th>
+                                <th style="text-align:center">Action(table)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int count = 1;
+
+                                EnterpriseWebProject.DAL.EWContextDb db = new EnterpriseWebProject.DAL.EWContextDb();
+                                List<int?> accList = new List<int?>();
+                                var acc = db.Accounts.ToList();
+                                foreach (var i in acc)
+                                {
+                                    accList.Add(i.RoleId);
+                                }
+                            }
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="text-align:center">@count</td>
+                                    <td style="text-align:center">@item.Name</td>
+                                    <td style="text-align:center">
+                                        <a href="@Url.Action("RoleEdit", new {roleId = item.Id})">Edit</a> |
+                                        @if (accList.Contains(item.Id))
+                                        {
+                                            <a href="#" onclick="return alert('Cannot delete this row!!!')">Delete</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("RoleDelete", new {roleId = item.Id})" onclick="return confirm('Are you sure you want to remove *@item.Name*? @ViewBag.Err')">Delete</a>
+                                        }
+
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-----------------------------END BODY------------------------------------------------->
