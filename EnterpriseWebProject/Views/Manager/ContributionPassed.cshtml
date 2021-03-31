@@ -1,4 +1,4 @@
-﻿@model IPagedList<EnterpriseWebProject.Models.File>
+﻿@model IPagedList<EnterpriseWebProject.ViewModel.ContributionPassViewModel>
 @using PagedList;
 @using PagedList.Mvc;
 @{
@@ -32,11 +32,24 @@
                         </div>
                         <div class="col-lg-6 pull-right">
                             <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
-                                <input type="submit" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%" value="Download" />
+                                <input type="submit" id="download1" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%" value="Download" />
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        @{
+                            EnterpriseWebProject.DAL.EWContextDb db = new EnterpriseWebProject.DAL.EWContextDb();
+                            var maga = db.Magazines.ToList();
+                            List<SelectListItem> list = new List<SelectListItem>();
+                            foreach (var item in maga)
+                            {
+                                list.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                            }
+                        }
+                        @Html.DropDownList(,list new { @class = "form-control"})
+                        <a id="submit" class="btn btn-primary">Submbit</a>                                      
+                        
+                    </div>
                     <div class="card-body table-full-width table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -55,17 +68,19 @@
                                 }
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td style="text-align:center">@count</td>
-                                        <td style="text-align:center">@item.Name</td>
-                                        <td style="text-align:center">@item.FileType</td>
-                                        <td style="text-align:center">@item.Contribution.SubmitDate</td>
-                                        <td style="text-align:center">@item.Contribution.Magazine_Faculty.Magazine.Name</td>
-                                        <td style="text-align:center">
-                                            <input class="form-check-input" name="download" value="@item.Id" type="checkbox" style="zoom: 1.7;">
-                                        </td>
 
-                                    </tr>
+                                        <tr>
+                                            <td style="text-align:center">@count</td>
+                                            <td style="text-align:center">@item.Name</td>
+                                            <td style="text-align:center">@item.FileName</td>
+                                            <td style="text-align:center">@item.SubmitDate</td>
+                                            <td style="text-align:center">@item.MagazineName</td>
+                                            <td style="text-align:center">
+                                                <input class="form-check-input" name="download" value="@item.Id" type="checkbox" style="zoom: 1.7;">
+                                            </td>
+
+                                        </tr>
+                                   
                                     count++;
                                 }
                             </tbody>
@@ -89,13 +104,21 @@
         }
     }
     //Check Validate with checkboxs
-    function validate() {
+    document.getElementById('download1').onclick = function validate() {
         var checkbox = document.querySelector('input[name="download"]:checked');
         if (!checkbox) {
             alert("checkbox select is required!");
             return false;
         }
     }
+    document.getElementById('submit').onclick = function () {
+        var maga = document.getElementById("magaList");
+        var value = maga.value;
+
+        window.location.href = "/Manager/ContributionPassed?magaList=" + value + "?page";
+    }
+    
+
 </script>
 <script>
 

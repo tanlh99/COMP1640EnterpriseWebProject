@@ -164,6 +164,7 @@
     <Compile Include="Models\Magazine_Faculty.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="ViewModel\CommentViewModel.cs" />
+    <Compile Include="ViewModel\ContributionPassViewModel.cs" />
     <Compile Include="ViewModel\ContributionViewModel.cs" />
     <Compile Include="ViewModel\Contri_FileViewModel.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />

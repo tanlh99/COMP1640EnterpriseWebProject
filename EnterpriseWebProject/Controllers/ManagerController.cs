@@ -368,23 +368,41 @@ namespace EnterpriseWebProject.Controllers
         }
 
         //GET: ContributionPassed
-        public ActionResult ContributionPassed(int? page)
+        public ActionResult ContributionPassed(int magaId, int? page)
         {
-            IPagedList<EnterpriseWebProject.Models.File> list = db.Files.Where(m => m.Contribution.Status == true).ToList().ToPagedList(page ?? 1, 10);
+            //IPagedList<EnterpriseWebProject.Models.File> list = db.Files.Where(m => m.Contribution.Status == true).ToList().ToPagedList(page ?? 1, 10);          
 
-            return View(list);
-        }
-
-        ////GET:
-        //public ActionResult ContributionApproved(int magazineId)
-        //{
-        //    var fileInContri = db.Files.Where(m => m.Contribution.MagazineId == magazineId && m.Contribution.Status == true).ToList();
-        //    ViewBag.Id = magazineId;
+            List<EnterpriseWebProject.Models.File> file = db.Files.Where(m=> m.Contribution.Status == true && m.Contribution.Magazine_Faculty.MagazineId == magaId).ToList();
+            List<ContributionPassViewModel> list = new List<ContributionPassViewModel>();
+            var getMagazine = db.Magazines.ToList();
             
-        //    return View(fileInContri);
-        //}
+            foreach (var item in file)
+            {
+                ContributionPassViewModel model = new ContributionPassViewModel()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    FileName = item.FileType,
+                    SubmitDate = item.Contribution.SubmitDate,
+                    MagazineName = item.Contribution.Magazine_Faculty.Magazine.Name
+                    
+                };
+                list.Add(model);
+            }
 
-        public FileResult DownloadFile(List<string> download)
+            return View(list.ToList().ToPagedList(page ?? 1, 10));
+        }
+      
+           ////GET:
+            //public ActionResult ContributionApproved(int magazineId)
+            //{
+            //    var fileInContri = db.Files.Where(m => m.Contribution.MagazineId == magazineId && m.Contribution.Status == true).ToList();
+            //    ViewBag.Id = magazineId;
+
+            //    return View(fileInContri);
+            //}
+
+            public FileResult DownloadFile(List<string> download)
         {
             //Models.File file = new Models.File();            
             //var file = db.Files.Where(m => m.Contribution.MagazineId == magazineId).ToList();
