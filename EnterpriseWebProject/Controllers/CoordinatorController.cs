@@ -20,8 +20,9 @@ namespace EnterpriseWebProject.Controllers
         public ActionResult ContributionSubmited(int? page)
         {
             var fac_acc = db.Accounts_Faculties.Where(m => m.Account.Username == User.Identity.Name).FirstOrDefault();
-            var list = db.Files.Where(m => m.Contribution.FacultyId == fac_acc.FacultyId  && m.Contribution.Magazine_Faculty.Magazine.Status == true).ToList().ToPagedList(page ?? 1, 10 );
-                         
+            var getNewMaga = db.Magazines.OrderByDescending(n => n.CloseDate).FirstOrDefault();
+            var list = db.Files.Where(m => m.Contribution.FacultyId == fac_acc.FacultyId && m.Contribution.MagazineId == getNewMaga.Id).ToList().ToPagedList(page ?? 1, 10);
+
             return View(list);
         }
         //GET: 

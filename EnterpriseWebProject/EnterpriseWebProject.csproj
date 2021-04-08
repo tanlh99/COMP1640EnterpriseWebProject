@@ -149,6 +149,10 @@
     <Compile Include="Migrations\202103251105590_s1.designer.cs">
       <DependentUpon>202103251105590_s1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104030433337_s2.cs" />
+    <Compile Include="Migrations\202104030433337_s2.designer.cs">
+      <DependentUpon>202104030433337_s2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYear.cs" />
     <Compile Include="Models\Account.cs" />
@@ -610,6 +614,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Files\allfiles\" />
     <Folder Include="Files\Avatar\" />
     <Folder Include="Files\Doc\" />
     <Folder Include="Files\Image\" />
@@ -631,6 +636,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202103251105590_s1.resx">
       <DependentUpon>202103251105590_s1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104030433337_s2.resx">
+      <DependentUpon>202104030433337_s2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

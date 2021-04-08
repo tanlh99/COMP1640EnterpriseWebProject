@@ -30,14 +30,14 @@ namespace EnterpriseWebProject.Controllers
         {
             //Random random = new Random();
             //var listFac = new List<string>();
-            //int FacNo = 4; ////So luong Faculty
-            //int MagaId = 31; ////Id cua magazine muon add contribution vao
-            //int month = 2; ////Thang cua magazine
+            //int FacNo = 7; ////So luong Faculty
+            //int MagaId = 3; ////Id cua magazine muon add contribution vao
+            //int month = 1; ////Thang cua magazine
             //int year = 2021; ////Năm của magazine
             //int contriNumber = 10; ////Số lượng contribution muốn tạo
 
 
-            ////Auto assign Faculty to Magazine (Assign Faculty ngẫu nhiên cho Magazine)
+            //////Auto assign Faculty to Magazine (Assign Faculty ngẫu nhiên cho Magazine)
             //for (int i = 0; i < FacNo; i++)
             //{
             //    int ranFac = random.Next(1, 5);
@@ -65,39 +65,39 @@ namespace EnterpriseWebProject.Controllers
             //    System.Diagnostics.Debug.WriteLine("INSERT INTO Contributions([SubmitDate],[Status],[AccountId],[MagazineId],[FacultyId]) VALUES('0{4}-{2}-{5} 07:57:10','False','{0}','{3}','{1}');", StudentId, StudentFac, day, MagaId, month, year);
             //}
 
-            ////Add file data to contribution
-            //List<string> Description = new List<string>();
-            //Description.Add("No thief, however skillful, can rob one of knowledge, and that is why knowledge is the best and safest treasure to acquire.");
-            //Description.Add("Knowledge is seemingly endless, we cannot underestimate the importance of knowledge in today’s society. It can be said that each of us can contribute a part of personal knowledge to build a great tree so that we can exchange and learn from each other, by each student can write magazine articles.");
-            //Description.Add("Lorem ipsum dolor sit , consectetur adipiscing elit, sed do iusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices.");
-            //List<string> Name = new List<string>();
-            //Name.Add("Good Contribution");
-            //Name.Add("Nice Contribution");
-            //Name.Add("Super Contribution");
-            //List<string> FileType = new List<string>();
-            //FileType.Add("MyContribution.docx");
-            //FileType.Add("MyContributionA.docx");
-            //FileType.Add("MyContributionB.docx");
-            //List<string> FileName = new List<string>();
-            //FileName.Add("catmeme.png");
-            //FileName.Add("heheaa.png");
-            //FileName.Add("haha.jpg");
+            //Add file data to contribution
+            List<string> Description = new List<string>();
+            Description.Add("No thief, however skillful, can rob one of knowledge, and that is why knowledge is the best and safest treasure to acquire.");
+            Description.Add("Knowledge is seemingly endless, we cannot underestimate the importance of knowledge in today’s society. It can be said that each of us can contribute a part of personal knowledge to build a great tree so that we can exchange and learn from each other, by each student can write magazine articles.");
+            Description.Add("Lorem ipsum dolor sit , consectetur adipiscing elit, sed do iusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices.");
+            List<string> Name = new List<string>();
+            Name.Add("Good Contribution");
+            Name.Add("Nice Contribution");
+            Name.Add("Super Contribution");
+            List<string> FileType = new List<string>();
+            FileType.Add("MyContribution.docx");
+            FileType.Add("MyContributionA.docx");
+            FileType.Add("MyContributionB.docx");
+            List<string> FileName = new List<string>();
+            FileName.Add("catmeme.png");
+            FileName.Add("heheaa.png");
+            FileName.Add("haha.jpg");
 
-            //var contri = db.Contributions.ToList();
-            //for (int i = 1; i < 161; i++)
-            //{
+            var contri = db.Contributions.ToList();
+           
+            
 
-            //    //var getContribyMagaId = db.Contributions.Where(m => m.MagazineId == i).ToList(); //Lưu ý i là id của magazine
-            //    foreach (var item in contri)
-            //    {
-            //        string name = Name.ElementAt(random.Next(0, 3));
-            //        string filetype = FileType.ElementAt(random.Next(0, 3));
-            //        string filename = FileName.ElementAt(random.Next(0, 3));
-            //        string description = Description.ElementAt(random.Next(0, 3));
-            //        System.Diagnostics.Debug.WriteLine("INSERT INTO Files([Name],[FileType],[FileName],[Description],[ContributionId]) " +
-            //            "VALUES('{0}','{1}','{2}','{3}','{4}');", name, filetype, filename, description, item.Id);
-            //    }
-            //}
+                //var getContribyMagaId = db.Contributions.Where(m => m.MagazineId == i).ToList(); //Lưu ý i là id của magazine
+                foreach (var item in contri)
+                {
+                    string name = Name.ElementAt(random.Next(0, 3));
+                    string filetype = FileType.ElementAt(random.Next(0, 3));
+                    string filename = FileName.ElementAt(random.Next(0, 3));
+                    string description = Description.ElementAt(random.Next(0, 3));
+                    System.Diagnostics.Debug.WriteLine("INSERT INTO Files([Name],[FileType],[FileName],[Description],[ContributionId]) " +
+                        "VALUES('{0}','{1}','{2}','{3}','{4}');", name, filetype, filename, description, item.Id);
+                }
+            
 
             //Auto assign faculty for student (Assign faculty ngẫu nhiên cho student ko co Faculty)
             //var StudentNoFac = db.Accounts.Where(m => m.RoleId == 4 && m.Account_Faculties.Count == 0).ToList();

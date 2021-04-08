@@ -41,38 +41,92 @@
                         <tbody id="myTable">
                             @{
                                 int count = 1;
+                                EnterpriseWebProject.DAL.EWContextDb db = new EnterpriseWebProject.DAL.EWContextDb();
+                                var MagaCloseDate = db.Magazines.OrderByDescending(m => m.CloseDate).FirstOrDefault();
+
+                                var closeDate = Convert.ToDateTime(MagaCloseDate.CloseDate);
+                                var deadline2 = closeDate.AddDays(14);
+                                var getDate = DateTime.Now;
+                                
+                                int checkDate = DateTime.Compare(getDate, deadline2);
+
                             }
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.OrderBy(m => m.Contribution.Status))
                             {
-                                <tr>
-                                    <td style="text-align:center">@count</td>
-                                    <td>@item.Name</td>
-                                    <td style="text-align:center">@item.Contribution.SubmitDate</td>
-                                    <td style="text-align:center">
-                                        @if (item.Contribution.Status == true)
-                                        {
+                            <tr>
+
+                                @if (checkDate < 0)
+                                {
+                                    if (item.Contribution.Status == true)
+                                    {
+                                        <td style="text-align:center">@count</td>
+                                        <td>@item.Name</td>
+                                        <td style="text-align:center">@item.Contribution.SubmitDate</td> 
+                                        <td style="text-align:center">
+
                                             <span style="min-width:100px;display:inline-block;padding:4px 2px;background: green;"
                                                   class="badge badge-success">Pass</span>
-                                        }
-                                        else
-                                        {
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("ContributionDetail","Coordinator", new { contriId = item.ContributionId, numb = count})">View</a> |
+                                            <a href="@Url.Action("ApproveContribution","Coordinator",new { contriId = item.ContributionId})">Edit</a>
+                                        </td>
+                                        @*<td style="text-align:center">
+                    <span class="dot" style="  height: 12px;
+                                        width: 12px;
+                                        background-color: red;
+                                        border-radius: 50%;
+                                        display: inline-block;"></span>
+                </td>*@
+                                    }
+                                    else if (item.Contribution.Status == false)
+                                    {
+                                        <td style="text-align:center">@count</td>
+                                        <td>@item.Name</td>
+                                        <td style="text-align:center">@item.Contribution.SubmitDate</td>
+                                        <td style="text-align:center">
+
                                             <span style="min-width:100px;display:inline-block;padding:4px 2px;background: red;"
                                                   class="badge badge-success">Not Pass</span>
-                                        }
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("ContributionDetail","Coordinator", new { contriId = item.ContributionId, numb = count})">View</a> |
+                                            <a href="@Url.Action("ApproveContribution","Coordinator",new { contriId = item.ContributionId})">Edit</a>
+                                        </td>
+                                        @*<td style="text-align:center">
+                    <span class="dot" style="  height: 12px;
+                                        width: 12px;
+                                        background-color: red;
+                                        border-radius: 50%;
+                                        display: inline-block;"></span>
+                </td>*@
+                                    }
+                                    else if (item.Contribution.Status == null)
+                                    {
+                                        <td style="text-align:center">@count</td>
+                                        <td>@item.Name</td>
+                                        <td style="text-align:center">@item.Contribution.SubmitDate</td>
+                                        <td style="text-align:center">
 
-                                    </td>
-                                    <td style="text-align:center">
-                                        <a href="@Url.Action("ContributionDetail","Coordinator", new { contriId = item.ContributionId, numb = count})">View</a> |
-                                        <a href="@Url.Action("ApproveContribution","Coordinator",new { contriId = item.ContributionId})">Edit</a>
-                                    </td>
-                                    @*<td style="text-align:center">
-                                <span class="dot" style="  height: 12px;
-                                                    width: 12px;
-                                                    background-color: red;
-                                                    border-radius: 50%;
-                                                    display: inline-block;"></span>
-                            </td>*@
-                                </tr>
+                                            <span style="min-width:100px;display:inline-block;padding:4px 2px;background: orange;"
+                                                  class="badge badge-success">Unchecked</span>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("ContributionDetail","Coordinator", new { contriId = item.ContributionId, numb = count})">View</a> |
+                                            <a href="@Url.Action("ApproveContribution","Coordinator",new { contriId = item.ContributionId})">Edit</a>
+                                        </td>
+                                        @*<td style="text-align:center">
+                    <span class="dot" style="  height: 12px;
+                                        width: 12px;
+                                        background-color: red;
+                                        border-radius: 50%;
+                                        display: inline-block;"></span>
+                </td>*@
+                                    }
+
+                                }
+
+                            </tr>
                                 count++;
                             }
                         </tbody>

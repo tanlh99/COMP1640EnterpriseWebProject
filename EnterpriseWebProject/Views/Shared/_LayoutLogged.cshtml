@@ -84,6 +84,7 @@
                     }
                     else if (User.IsInRole("Manager"))
                     {
+
                         <li>
                             <a href="@Url.Action("Dashboard","Manager")" class="nav-link">
                                 <i class="pe-7s-graph"></i>
@@ -96,9 +97,19 @@
                                 <p>Magazine</p>
                             </a>
                         </li>
-
+                        
                         <li>
-                            <a href="@Url.Action("ContributionPassed","Manager", new { })" class="nav-link">
+                            @{
+                                EnterpriseWebProject.DAL.EWContextDb context = new EnterpriseWebProject.DAL.EWContextDb();
+                                var maga = context.Magazines.OrderByDescending(m => m.Id).ToList();
+                                List<int> list = new List<int>();
+                                foreach (var item in maga)
+                                {
+                                    list.Add(item.Id);
+                                }
+
+                            }
+                            <a href="@Url.Action("ContributionPassed","Manager", new { magazineId = list.ElementAt(0), page = 1})" class="nav-link">
                                 <i class="pe-7s-file"></i>
                                 <p>Contribution Approved</p>
                             </a>

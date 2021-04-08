@@ -11,7 +11,7 @@ namespace EnterpriseWebProject.ViewModel
         //Contribution model
         public int Number { get; set; }
         public DateTime SubmitDate { get; set; }
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
         public string StudentName { get; set; }
         //File model
         public string Name { get; set; }

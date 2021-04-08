@@ -9,7 +9,7 @@ namespace EnterpriseWebProject.Models
     {
         public int Id { get; set; }
         public DateTime SubmitDate { get; set; }
-        public bool Status { get; set; }
+        public Nullable<bool> Status { get; set; }
         public int AccountId { get; set; }
         public int MagazineId { get; set; }
         public int FacultyId { get; set; }

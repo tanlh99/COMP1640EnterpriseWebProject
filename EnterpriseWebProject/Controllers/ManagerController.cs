@@ -368,41 +368,78 @@ namespace EnterpriseWebProject.Controllers
         }
 
         //GET: ContributionPassed
-        public ActionResult ContributionPassed(int magaId, int? page)
+        public ActionResult ContributionPassed(int magazineId, int? page)
         {
-            //IPagedList<EnterpriseWebProject.Models.File> list = db.Files.Where(m => m.Contribution.Status == true).ToList().ToPagedList(page ?? 1, 10);          
+            var list = db.Files.Where(m => m.Contribution.Status == true && m.Contribution.MagazineId == magazineId).ToList().ToPagedList(page ?? 1, 10);
 
-            List<EnterpriseWebProject.Models.File> file = db.Files.Where(m=> m.Contribution.Status == true && m.Contribution.Magazine_Faculty.MagazineId == magaId).ToList();
-            List<ContributionPassViewModel> list = new List<ContributionPassViewModel>();
-            var getMagazine = db.Magazines.ToList();
-            
+            List<SelectListItem> magaList = new List<SelectListItem>();
+            var maga = db.Magazines.ToList();
+            //var firstmaga = db.Magazines.Where(m => m.Id == magazineId).FirstOrDefault();
+            //magaList.Add(new SelectListItem { Text = firstmaga.Name, Value = firstmaga.Id.ToString() });
+            foreach (var item in maga)
+            {
+                magaList.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+            }
+            ViewBag.magaList = magaList;
+
+
+            ViewBag.id = magazineId;
+            return View(list);
+        }
+
+        
+
+        ////GET:
+        //public ActionResult ContributionApproved(int magazineId)
+        //{
+        //    var fileInContri = db.Files.Where(m => m.Contribution.MagazineId == magazineId && m.Contribution.Status == true).ToList();
+        //    ViewBag.Id = magazineId;
+
+        //    return View(fileInContri);
+        //}
+        public FileResult DownloadAll(int magaId)
+        {
+            var file = db.Files.Where(m => m.Contribution.MagazineId == magaId && m.Contribution.Status == true).ToList();
+            var pathDoc = Server.MapPath("~/Files/Doc/");
+            var pathImg = Server.MapPath("~/Files/Image/");
+
+            List<string> fileList = new List<string>();
             foreach (var item in file)
             {
-                ContributionPassViewModel model = new ContributionPassViewModel()
+                if (System.IO.File.Exists(Server.MapPath("~/Files/allfiles/" + item.Name + ".zip")))
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    FileName = item.FileType,
-                    SubmitDate = item.Contribution.SubmitDate,
-                    MagazineName = item.Contribution.Magazine_Faculty.Magazine.Name
-                    
-                };
-                list.Add(model);
+                    System.IO.File.Delete(Server.MapPath("~/Files/allfiles/" + item.Name + ".zip"));
+                }
+
+                ZipArchive zipDocImg = ZipFile.Open(Server.MapPath("~/Files/allfiles/" + item.Name + ".zip"), ZipArchiveMode.Create);
+
+                zipDocImg.CreateEntryFromFile(pathDoc + item.FileType, item.FileType);
+                zipDocImg.CreateEntryFromFile(pathImg + item.FileName, item.FileName);
+
+                zipDocImg.Dispose();
+
+                fileList.Add(item.Name + ".zip");
             }
 
-            return View(list.ToList().ToPagedList(page ?? 1, 10));
+            var zipPath = Server.MapPath("~/Files/allfiles/");
+
+            if (System.IO.File.Exists(Server.MapPath("~/Files/allfiles/bundle.zip")))
+            {
+                System.IO.File.Delete(Server.MapPath("~/Files/allfiles/bundle.zip"));
+            }
+
+            ZipArchive zip = ZipFile.Open(Server.MapPath("~/Files/allfiles/bundle.zip"), ZipArchiveMode.Create);
+
+            foreach (var item in fileList)
+            {
+                zip.CreateEntryFromFile(zipPath + item, item);
+            }
+            zip.Dispose();
+            return File("~/Files/allfiles/bundle.zip", "application/zip", "Contribution.zip");
+
         }
-      
-           ////GET:
-            //public ActionResult ContributionApproved(int magazineId)
-            //{
-            //    var fileInContri = db.Files.Where(m => m.Contribution.MagazineId == magazineId && m.Contribution.Status == true).ToList();
-            //    ViewBag.Id = magazineId;
 
-            //    return View(fileInContri);
-            //}
-
-            public FileResult DownloadFile(List<string> download)
+        public FileResult DownloadFile(List<string> download)
         {
             //Models.File file = new Models.File();            
             //var file = db.Files.Where(m => m.Contribution.MagazineId == magazineId).ToList();

@@ -1,6 +1,7 @@
-﻿@model IPagedList<EnterpriseWebProject.ViewModel.ContributionPassViewModel>
+﻿@model IPagedList<EnterpriseWebProject.Models.File>
 @using PagedList;
 @using PagedList.Mvc;
+@using EnterpriseWebProject.Models;
 @{
     ViewBag.Title = "ContributionPassed";
     Layout = "~/Views/Shared/_LayoutLogged.cshtml";
@@ -14,13 +15,16 @@
                 <div class="card-header ">
                     <h4 class="card-title">CONTRIBUTION PASSED</h4>
                 </div>
+                @{
+                    int count = 1;
+                }
                 @using (Html.BeginForm("DownloadFile", "Manager", FormMethod.Post, new { @enctype = "multipart/form-data", onsubmit = "return validate()" }))
                 {
-                    <div class="row">
-                        <div class="col-lg-6 pull-left">
-                            <div class="search">
-                                <i class="fa fa-search"></i>
-                                <input type="text" style="margin: 10px;
+            <div class="row">
+                <div class="col-lg-9 pull-left">
+                    <div class="search">
+                        <i class="fa fa-search"></i>
+                        <input type="text" style="margin: 10px;
                                                         height: 40px;
                                                         width: 300px;
                                                         padding-left: 10px;
@@ -28,28 +32,44 @@
                                                         border-width: 0 0 2px;
                                                         border-color: #1dc7ea;
                                                         background: rgb(247 247 248)" placeholder="Search.." id="searchTable"><br>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 pull-right">
-                            <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
-                                <input type="submit" id="download1" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%" value="Download" />
-                            </div>
-                        </div>
                     </div>
+                </div>
+                <div class="col-lg-1 pull-right">
+                    <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">
+                        <input type="submit" class="btn btn-info btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%" value="Download" />
+                    </div>
+                </div>
+                <div class="col-lg-2 pull-right">
+                    <div style="margin-top: 10px; margin-bottom: 10px; position: relative; text-align: right;">                    
+                        <a href="@Url.Action("DownloadAll","Manager", new { magaId = ViewBag.id})" class="btn btn-warning btn-fill" style="margin:10px; box-shadow:0 1px 2px rgb(0 0 0 / 5%), 0 0 0 1px rgb(63 63 68 / 10%">Download All</a>
+                    </div>
+                </div>
+
+            </div>
                     <div class="row">
                         @{
-                            EnterpriseWebProject.DAL.EWContextDb db = new EnterpriseWebProject.DAL.EWContextDb();
-                            var maga = db.Magazines.ToList();
-                            List<SelectListItem> list = new List<SelectListItem>();
-                            foreach (var item in maga)
-                            {
-                                list.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
-                            }
+                            List<SelectListItem> list = ViewBag.magaList;
+                            int id = ViewBag.id;
                         }
-                        @Html.DropDownList(,list new { @class = "form-control"})
-                        <a id="submit" class="btn btn-primary">Submbit</a>                                      
-                        
+                        <select id="magazineId" name="magazineId" class="form-control" onchange="doNavigate()">
+
+                            @foreach (var item in list)
+                            {
+                                if (item.Value == id.ToString())
+                                {
+                                    <option value="@Url.Action("ContributionPassed", "Manager", new { magazineId = item.Value})" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@Url.Action("ContributionPassed", "Manager", new { magazineId = item.Value})">@item.Text</option>
+                                }
+
+                            }
+                        </select>
+
                     </div>
+
+
                     <div class="card-body table-full-width table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -63,24 +83,19 @@
                                 </tr>
                             </thead>
                             <tbody id="myTable">
-                                @{
-                                    int count = 1;
-                                }
                                 @foreach (var item in Model)
                                 {
+                                    <tr>
+                                        <td style="text-align:center">@count</td>
+                                        <td style="text-align:center">@item.Name</td>
+                                        <td style="text-align:center">@item.FileType</td>
+                                        <td style="text-align:center">@item.Contribution.SubmitDate</td>
+                                        <td style="text-align:center">@item.Contribution.Magazine_Faculty.Magazine.Name</td>
+                                        <td style="text-align:center">
+                                            <input class="form-check-input" name="download" value="@item.Id" type="checkbox" style="zoom: 1.7;">
+                                        </td>
 
-                                        <tr>
-                                            <td style="text-align:center">@count</td>
-                                            <td style="text-align:center">@item.Name</td>
-                                            <td style="text-align:center">@item.FileName</td>
-                                            <td style="text-align:center">@item.SubmitDate</td>
-                                            <td style="text-align:center">@item.MagazineName</td>
-                                            <td style="text-align:center">
-                                                <input class="form-check-input" name="download" value="@item.Id" type="checkbox" style="zoom: 1.7;">
-                                            </td>
-
-                                        </tr>
-                                   
+                                    </tr>
                                     count++;
                                 }
                             </tbody>
@@ -89,7 +104,7 @@
                 }
 
                 <div class="container" style="margin: 20px 0 0 auto">
-                    @Html.PagedListPager((IPagedList)Model, page => Url.Action("ContributionPassed", "Manager", new { page }))
+                    @Html.PagedListPager((IPagedList)Model, page => Url.Action("ContributionPassed", "Manager", new {magazineId = ViewBag.id ,page }))
                 </div>
             </div>
         </div>
@@ -104,22 +119,17 @@
         }
     }
     //Check Validate with checkboxs
-    document.getElementById('download1').onclick = function validate() {
+    function validate() {
         var checkbox = document.querySelector('input[name="download"]:checked');
         if (!checkbox) {
             alert("checkbox select is required!");
             return false;
         }
     }
-    document.getElementById('submit').onclick = function () {
-        var maga = document.getElementById("magaList");
-        var value = maga.value;
-
-        window.location.href = "/Manager/ContributionPassed?magaList=" + value + "?page";
-    }
-    
-
 </script>
 <script>
-
+    function doNavigate() {
+        window.location.href = document.getElementById("magazineId").value;
+       
+    }
 </script>

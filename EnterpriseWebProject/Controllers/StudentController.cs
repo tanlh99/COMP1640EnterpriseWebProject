@@ -56,7 +56,7 @@ namespace EnterpriseWebProject.Controllers
 
                 objContri.AccountId = userLogged.Id;
                 objContri.SubmitDate = DateTime.Now;
-                objContri.Status = false;
+                objContri.Status = null;
                 foreach (var item in maga_facList)
                 {
                     if (item.FacultyId == acc_facLogged.FacultyId)

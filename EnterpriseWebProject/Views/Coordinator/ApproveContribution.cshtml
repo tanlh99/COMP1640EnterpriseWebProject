@@ -18,8 +18,9 @@
                         <div class="card-body">
                             @{ 
                                 List<SelectListItem> list = new List<SelectListItem>();
-                                list.Add(new SelectListItem { Text = "True", Value = "True" });
-                                list.Add(new SelectListItem { Text = "False", Value = "False" });
+                                list.Add(new SelectListItem { Text = "Unchecked", Value = "NULL" });
+                                list.Add(new SelectListItem { Text = "Pass", Value = "True" });
+                                list.Add(new SelectListItem { Text = "Not Pass", Value = "False" });
                             }
                             @using (Html.BeginForm("ApproveContribution", "Coordinator", FormMethod.Post))
                             {

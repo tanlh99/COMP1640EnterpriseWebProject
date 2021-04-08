@@ -33,6 +33,7 @@
                                 <th style="text-align:center">No.</th>
                                 <th>File Name</th>
                                 <th style="text-align:center">Submit date</th>
+                                <th style="text-align:center">Magazine</th>
                                 <th style="text-align:center">Status</th>
                                 <th style="text-align:center"></th>
                                 @*<th style="text-align:center"></th>*@
@@ -41,40 +42,87 @@
                         <tbody id="myTable">
                             @{
                                 int count = 1;
-                                EnterpriseWebProject.ViewModel.CommentViewModel model = new EnterpriseWebProject.ViewModel.CommentViewModel();
+                                EnterpriseWebProject.DAL.EWContextDb db = new EnterpriseWebProject.DAL.EWContextDb();
+                                var maga = db.Files.Where(m => m.Contribution.Magazine_Faculty.Magazine.Status == false).ToList();
                             }
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.OrderByDescending(m => m.Contribution.SubmitDate).ThenBy(m => m.Contribution.Status))
                             {
-                                <tr>
-                                    <td style="text-align:center">@count</td>
-                                    <td>@item.Name</td>
-                                    <td style="text-align:center">@item.Contribution.SubmitDate</td>
-                                    <td style="text-align:center">
-                                        @if (item.Contribution.Status == true)
-                                        {
-                                            <span style="min-width:100px;display:inline-block;padding:4px 2px;background: green;"
-                                                  class="badge badge-success">Pass</span>
-                                        }
-                                        else
-                                        {
-                                            <span style="min-width:100px;display:inline-block;padding:4px 2px;background: red;"
-                                                  class="badge badge-success">Not Pass</span>
-                                        }
+                            <tr>
+                                <td style="text-align:center">@count</td>
+                                <td>@item.Name</td>
+                                <td style="text-align:center">@item.Contribution.SubmitDate</td>
+                                <td style="text-align:center">@item.Contribution.Magazine_Faculty.Magazine.Name</td>
+                                <td style="text-align:center">
+                                    @if (item.Contribution.Status == true)
+                                    {
+                                        <span style="min-width:100px;display:inline-block;padding:4px 2px;background: green;"
+                                              class="badge badge-success">Pass</span>
+                                    }
+                                    else if (item.Contribution.Status == null)
+                                    {
+                                        <span style="min-width:100px;display:inline-block;padding:4px 2px;background: orange;"
+                                              class="badge badge-success">Unchecked</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="min-width:100px;display:inline-block;padding:4px 2px;background: red;"
+                                              class="badge badge-success">Not Pass</span>
+                                    }
 
-                                    </td>
-                                    <td style="text-align:center">
-                                        <a href="@Url.Action("ViewContributionAndComment","Student", new { contriId = item.ContributionId, numb = count})">View</a> |
-                                        <a href="@Url.Action("EditFileInContribution","Student", new { contriId = item.ContributionId, numb = count})">Edit</a> |
-                                        <a href="@Url.Action("DeleteContribution","Student", new { contriId = item.ContributionId})" onclick="return confirm('Are you sure delete This Contribution?')">Delete</a>
-                                    </td>
-                                    @*<td style="text-align:center">
-                                            <span class="dot" style="  height: 12px;
-                                                                width: 12px;
-                                                                background-color: red;
-                                                                border-radius: 50%;
-                                                                display: inline-block;"></span>
-                                        </td>*@
-                                </tr>
+                                </td>
+                                @{
+                                    //CloseDate & Deadline2
+                                    var getNow = DateTime.Now;
+                                    var getMaga = db.Magazines.OrderByDescending(m => m.CloseDate).FirstOrDefault();
+                                    var CloseDate = Convert.ToDateTime(getMaga.CloseDate);
+                                    var Deadline2 = CloseDate.AddDays(14);
+
+                                    //GetMagaCloseDate
+                                    var MagaCloseDate = Convert.ToDateTime(item.Contribution.Magazine_Faculty.Magazine.CloseDate);
+                                }
+                            <td style="text-align:center">
+
+
+
+                                @*Before Close date*@
+                                @if (MagaCloseDate < CloseDate)
+                                {
+                                    <a href="@Url.Action("ViewContributionAndComment","Student", new { contriId = item.ContributionId, numb = count})">View</a>
+                                }
+                                else if (getNow < CloseDate && MagaCloseDate == CloseDate)
+                                {
+                                    <a href="@Url.Action("ViewContributionAndComment","Student", new { contriId = item.ContributionId, numb = count})">View</a>
+                                    <span> | </span>
+                                    <a href="@Url.Action("EditFileInContribution","Student", new { contriId = item.ContributionId, numb = count})">Edit</a>
+                                    <span> | </span>
+                                    <a href="@Url.Action("DeleteContribution","Student", new { contriId = item.ContributionId})" onclick="return confirm('Are you sure delete This Contribution?')">Delete</a>
+                                }
+                                else if (getNow > CloseDate && MagaCloseDate == CloseDate && getNow < Deadline2)
+                                {
+                                    <a href="@Url.Action("ViewContributionAndComment","Student", new { contriId = item.ContributionId, numb = count})">View</a>
+                                    <span> | </span>
+                                    <a href="@Url.Action("EditFileInContribution","Student", new { contriId = item.ContributionId, numb = count})">Edit</a>
+                                }
+                                else if (getNow > Deadline2 && MagaCloseDate == CloseDate)
+                                {
+                                    <a href="@Url.Action("ViewContributionAndComment","Student", new { contriId = item.ContributionId, numb = count})">View</a>
+                                }
+
+                                @*@if (getNow < Deadline2)
+        {
+            <span> | </span>
+            <a href="@Url.Action("EditFileInContribution","Student", new { contriId = item.ContributionId, numb = count})">Edit</a>
+        }*@
+
+                            </td>
+                                @*<td style="text-align:center">
+            <span class="dot" style="  height: 12px;
+                                width: 12px;
+                                background-color: red;
+                                border-radius: 50%;
+                                display: inline-block;"></span>
+        </td>*@
+                            </tr>
                                 count++;
                             }
                         </tbody>
